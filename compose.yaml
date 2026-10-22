@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: integracao
+      POSTGRES_USER: integracao
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U integracao -d integracao"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      IB_DATABASE_URL: postgresql+psycopg://integracao:${POSTGRES_PASSWORD}@db:5432/integracao
+      IB_STORAGE_DIR: /srv/data/files
+      IB_API_KEYS: ${IB_API_KEYS:?defina IB_API_KEYS}
+      IB_LOG_LEVEL: INFO
+    volumes:
+      - bankfiles:/srv/data/files
+    ports:
+      - "127.0.0.1:8000:8000"
+
+volumes:
+  pgdata:
+  bankfiles:
