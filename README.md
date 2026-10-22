@@ -388,13 +388,3 @@ Lacunas documentais e decisões: [docs/itau_cnab400.md §8](docs/itau_cnab400.md
 * [Homologação](docs/homologation.md)
 * [Operação, segurança e diagnóstico](docs/operations.md)
 * [Novos adaptadores (CNAB 240, outros bancos)](docs/new_adapters.md)
-
-## Limitações conhecidas
-
-* Sem transmissão ao banco: o arquivo é baixado e enviado pelo canal autorizado da empresa.
-* Autenticação por chave de API estática. Para produção, integre um provedor OIDC.
-* Processamento de retorno síncrono na requisição; adequado a arquivos até o limite configurado.
-* O manual de 2017 é anterior ao CNPJ alfanumérico (2026); inscrições alfanuméricas são
-  rejeitadas.
-* Migrações e suíte testadas em PostgreSQL 18. A imagem Docker não foi testada (Docker
-  indisponível no ambiente de desenvolvimento).
